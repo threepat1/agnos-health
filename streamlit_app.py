@@ -9,10 +9,11 @@ question = st.text_input("Ask a health question")
 
 if st.button("Ask"):
     if question.strip():
-        try:
-            response = chatbot.run(question)
-            st.write(response if response else "No answer found.")
-        except Exception as e:
-            st.error(f"Error: {e}")
+        with st.spinner("Thinking..."):
+            try:
+                response = chatbot.invoke({"input": question})
+                st.write(response.get("answer", "No answer found."))
+            except Exception as e:
+                st.error(f"Error: {e}")
     else:
         st.warning("Please enter a question.")
